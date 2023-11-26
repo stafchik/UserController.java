@@ -5,11 +5,9 @@ import com.example.crud.model.User;
 import com.example.crud.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 
 @Controller
 public class UserController {
@@ -34,13 +32,6 @@ public class UserController {
     }
 
 
-    @GetMapping("/users/delete")
-    public String deleteUserForm(@RequestParam(value = "id") Long id, ModelMap model) {
-        User user = userService.getUserById(id);
-        model.addAttribute("user", user);
-        return "users";
-    }
-
     @PostMapping("/users/{id}/delete")
     public String deleteUser(@ModelAttribute("user") User user) {
         userService.deleteUserById(user.getId());
@@ -48,16 +39,9 @@ public class UserController {
     }
 
 
-    @GetMapping("/users/update{id}")
-    public String updateUserForm(@PathVariable("id") Long id, ModelMap model) {
-        User user = userService.getUserById(id);
-        model.addAttribute("user", user);
-        return "users";
-    }
-
     @PostMapping("/users/{id}/update")
     public String updateUser(User user) {
-        userService.saveUser(user);
+        userService.updateUser(user);
         return "redirect:/users";
     }
 }

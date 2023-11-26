@@ -2,12 +2,13 @@ package com.example.crud.service;
 
 import com.example.crud.repository.UserRepository;
 import com.example.crud.model.User;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
+
 
 @Service
 public class UserService {
@@ -30,7 +31,7 @@ public class UserService {
 
 
     public User getUserById(Long id) {
-        return userRepository.findById(id).orElse(null);
+        return userRepository.findById(id).orElseThrow(EntityNotFoundException::new);
     }
 
 
@@ -38,5 +39,8 @@ public class UserService {
         return userRepository.findAll();
     }
 
-
+    @Transactional
+    public void updateUser(User user) {
+        userRepository.saveAndFlush(user);
+    }
 }
